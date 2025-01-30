@@ -78,9 +78,9 @@ const Quiz = () => {
         <button onClick={() => handleAnswer("U")}>U</button>
         <button onClick={() => handleAnswer("E")}>E</button>
         <button onClick={() => handleAnswer("O")}>O</button>
-        
+
       </div>
-      <button onClick={handleSubmitQuiz}>End Quiz</button> {/* Add End Quiz button */}
+      <button onClick={handleSubmitQuiz}>End Quiz</button> 
     </div>
   );
 };
