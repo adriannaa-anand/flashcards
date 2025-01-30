@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3200/api";
+const API_URL = "https://flashcard-back-end-1.onrender.com";
 
 const api = axios.create({
   baseURL: API_URL,
