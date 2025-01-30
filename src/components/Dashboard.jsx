@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, Navigate } from "react-router-dom";
-import '../index.css'; // Ensure the CSS file is imported
+import '../index.css'; 
 
 const Dashboard = ({ userToken, setUserToken }) => {
   const navigate = useNavigate();
