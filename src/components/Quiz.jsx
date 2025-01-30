@@ -6,15 +6,24 @@ const Quiz = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(60); 
+  const [quizCompleted, setQuizCompleted] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    getFlashcards().then((response) => {
-      setFlashcards(response.data);
-    });
+    getFlashcards()
+      .then((response) => {
+        setFlashcards(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error);
+        setLoading(false);
+      });
 
     const timer = timeLeft > 0 && setInterval(() => setTimeLeft(timeLeft - 1), 1000);
     if (timeLeft === 0) {
-      handleSubmitQuiz();
+      setQuizCompleted(true);
     }
     return () => clearInterval(timer);
   }, [timeLeft]);
@@ -23,10 +32,15 @@ const Quiz = () => {
     if (answer === flashcards[currentQuestionIndex].answer) {
       setScore(score + 1);
     }
-    setCurrentQuestionIndex(currentQuestionIndex + 1);
+    if (currentQuestionIndex + 1 < flashcards.length) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    } else {
+      setQuizCompleted(true);
+    }
   };
 
   const handleSubmitQuiz = async () => {
+    setQuizCompleted(true);
     try {
       await saveQuizHistory(score, flashcards.length);
       alert("Quiz history saved successfully!");
@@ -35,7 +49,15 @@ const Quiz = () => {
     }
   };
 
-  if (currentQuestionIndex >= flashcards.length) {
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error loading flashcards: {error.message}</div>;
+  }
+
+  if (quizCompleted) {
     return (
       <div>
         <h2>Quiz Completed</h2>
@@ -56,7 +78,9 @@ const Quiz = () => {
         <button onClick={() => handleAnswer("U")}>U</button>
         <button onClick={() => handleAnswer("E")}>E</button>
         <button onClick={() => handleAnswer("O")}>O</button>
+        
       </div>
+      <button onClick={handleSubmitQuiz}>End Quiz</button> {/* Add End Quiz button */}
     </div>
   );
 };

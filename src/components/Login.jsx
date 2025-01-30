@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { loginUser } from "../api";
 
 const Login = ({ setUserToken }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -13,13 +15,14 @@ const Login = ({ setUserToken }) => {
       localStorage.setItem("token", response.data.token);
       setUserToken(response.data.token);
       setError("");
+      navigate("/home");
     } catch (err) {
       setError("Invalid credentials. Please try again.");
     }
   };
 
   return (
-    <div>
+    <div className="center-container">
       <h2>Login</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleLogin}>

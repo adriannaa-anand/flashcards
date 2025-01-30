@@ -43,7 +43,6 @@ main {
   margin-top: 20px;
 }
 
-
 .flashcard {
   display: flex;
   flex-direction: column;
@@ -84,7 +83,6 @@ button {
 button:hover {
   background-color: #0056b3;
 }
-
 
 .quiz-container {
   width: 350px;
@@ -150,7 +148,6 @@ button:hover {
   color: white;
 }
 
-
 .timer {
   font-size: 18px;
   font-weight: bold;
@@ -211,5 +208,74 @@ button {
 }
 
 button:hover {
+  background-color: #0056b3;
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.dashboard-container h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.dashboard-container button {
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.dashboard-container button:hover {
+  background-color: #0056b3;
+}
+
+.center-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.center-container h2, .center-container h1 {
+  margin-bottom: 20px;
+}
+
+.center-container form, .center-container div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.center-container input, .center-container button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.center-container input {
+  width: 200px;
+}
+
+.center-container button:hover {
   background-color: #0056b3;
 }

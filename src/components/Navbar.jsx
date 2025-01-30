@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const Navbar = ({ userToken }) => {
+const Navbar = ({ userToken, onLogout }) => {
   const navigate = useNavigate();
 
   return (
@@ -16,7 +16,7 @@ const Navbar = ({ userToken }) => {
             <button onClick={() => navigate("/register")}>Register</button>
           </>
         ) : (
-          <button onClick={() => { localStorage.removeItem("token"); navigate("/login"); }}>Logout</button>
+          <button onClick={() => { onLogout(); navigate("/login"); }}>Logout</button>
         )}
       </div>
     </nav>
