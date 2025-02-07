@@ -5,7 +5,7 @@ const Quiz = () => {
   const [flashcards, setFlashcards] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(60); 
+  const [timeLeft, setTimeLeft] = useState(60);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,39 +13,25 @@ const Quiz = () => {
   useEffect(() => {
     getFlashcards()
       .then((response) => {
-        setFlashcards(response.data);
+        const shuffledFlashcards = response.data.sort(() => 0.5 - Math.random());
+        setFlashcards(shuffledFlashcards.slice(0, 10));
         setLoading(false);
       })
       .catch((error) => {
         setError(error);
         setLoading(false);
       });
+  }, []);
 
-    const timer = timeLeft > 0 && setInterval(() => setTimeLeft(timeLeft - 1), 1000);
-    if (timeLeft === 0) {
-      setQuizCompleted(true);
-    }
-    return () => clearInterval(timer);
-  }, [timeLeft]);
-
-  const handleAnswer = (answer) => {
-    if (answer === flashcards[currentQuestionIndex].answer) {
+  const handleAnswer = (isCorrect) => {
+    if (isCorrect) {
       setScore(score + 1);
     }
-    if (currentQuestionIndex + 1 < flashcards.length) {
+    if (currentQuestionIndex < flashcards.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       setQuizCompleted(true);
-    }
-  };
-
-  const handleSubmitQuiz = async () => {
-    setQuizCompleted(true);
-    try {
-      await saveQuizHistory(score, flashcards.length);
-      alert("Quiz history saved successfully!");
-    } catch (error) {
-      console.error("Error saving quiz history:", error);
+      saveQuizHistory(score, flashcards.length);
     }
   };
 
@@ -54,33 +40,24 @@ const Quiz = () => {
   }
 
   if (error) {
-    return <div>Error loading flashcards: {error.message}</div>;
+    return <div>Error: {error.message}</div>;
   }
 
   if (quizCompleted) {
-    return (
-      <div>
-        <h2>Quiz Completed</h2>
-        <p>Your score: {score}/{flashcards.length}</p>
-        <button onClick={handleSubmitQuiz}>Save Quiz History</button>
-      </div>
-    );
+    return <div>Quiz completed! Your score: {score}</div>;
   }
+
+  const currentQuestion = flashcards[currentQuestionIndex];
 
   return (
     <div>
       <h2>Quiz</h2>
-      <p>Time Left: {timeLeft}s</p>
       <div>
-        <p>{flashcards[currentQuestionIndex].question}</p>
-        <button onClick={() => handleAnswer("A")}>A</button>
-        <button onClick={() => handleAnswer("I")}>I</button>
-        <button onClick={() => handleAnswer("U")}>U</button>
-        <button onClick={() => handleAnswer("E")}>E</button>
-        <button onClick={() => handleAnswer("O")}>O</button>
-
+        <p>{currentQuestion.question}</p>
+        <button onClick={() => handleAnswer(true)}>Correct</button>
+        <button onClick={() => handleAnswer(false)}>Incorrect</button>
       </div>
-      <button onClick={handleSubmitQuiz}>End Quiz</button> 
+      <div>Time left: {timeLeft} seconds</div>
     </div>
   );
 };
