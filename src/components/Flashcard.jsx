@@ -1,8 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const Flashcard = ({ list }) => {
+const Flashcard = ({ list, onEnter }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
+
+  useEffect(() => {
+    setCurrentIndex(0);
+    setIsExpanded(false);
+  }, [list]);
+
+  useEffect(() => {
+    if (onEnter) onEnter();
+    // Only run on mount
+    // eslint-disable-next-line
+  }, []);
 
   const currentFlashcard = list[currentIndex];
 
