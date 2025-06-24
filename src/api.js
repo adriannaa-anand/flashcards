@@ -17,12 +17,12 @@ api.interceptors.request.use((config) => {
   return config;
 }, (error) => Promise.reject(error));
 
-export const registerUser = async (username, password) => {
-  return api.post("/register", { username, password });
+export const registerUser = async (username, email, password) => {
+  return api.post("/register", { username, email, password });
 };
 
-export const loginUser = async (username, password) => {
-  return api.post("/login", { username, password });
+export const loginUser = async (email, password) => {
+  return api.post("/login", { email, password });
 };
 
 export const getFlashcards = async () => {

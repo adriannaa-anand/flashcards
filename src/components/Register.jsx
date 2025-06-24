@@ -4,6 +4,7 @@ import { registerUser } from "../api";
 
 const Register = ({ setUserToken }) => {
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const Register = ({ setUserToken }) => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await registerUser(username, password);
+      await registerUser(username, email, password); // <-- include email here
       navigate("/login");
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
@@ -28,6 +29,13 @@ const Register = ({ setUserToken }) => {
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
         <input

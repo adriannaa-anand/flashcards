@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { loginUser } from "../api";
 
 const Login = ({ setUserToken }) => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ const Login = ({ setUserToken }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await loginUser(username, password);
+      const response = await loginUser(email, password);
       localStorage.setItem("token", response.data.token);
       setUserToken(response.data.token);
       setError("");
@@ -27,11 +27,11 @@ const Login = ({ setUserToken }) => {
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleLogin}>
         <div>
-          <label>Username:</label>
+          <label>Email:</label>
           <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
